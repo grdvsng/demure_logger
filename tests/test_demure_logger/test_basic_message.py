@@ -1,6 +1,6 @@
 import unittest
 
-from src.demure_logger.writers.basic.line import BasicLine, BasicColumn, LineWrongAttributeType
+from src.demure_logger.log.message import BasicMessage, BasicColumn, LineWrongAttributeType
 
 
 TEST_COLUMN_1_DEFAULT = lambda : 10 * 10
@@ -13,9 +13,9 @@ TEST_SORTED_ITER      = [ 'column_2', 'column_1' ]
 TEST_SORTED_FUNC      = lambda column : TEST_SORTED_ITER.index( column.name )
 
 
-class Test( unittest.TestCase ):
+class TestMessage( unittest.TestCase ):
     def test_create_simple_instance( self ):
-        class CorrectLineClass( BasicLine ):
+        class CorrectLineClass( BasicMessage ):
             column_1 = BasicColumn( default=TEST_COLUMN_1_DEFAULT )
             column_2 = BasicColumn( default=TEST_COLUMN_2_DEFAULT )
 
@@ -25,7 +25,7 @@ class Test( unittest.TestCase ):
         self.assertEqual( instance.column_2, TEST_COLUMN_2_VALUE )
 
     def test_create_wrong_instance( self ):
-        class CorrectLineClass( BasicLine ):
+        class CorrectLineClass( BasicMessage ):
             column_1 = BasicColumn( default=TEST_COLUMN_1_DEFAULT )
             column_2 = BasicColumn( default=TEST_COLUMN_2_DEFAULT )
             column_3 = 123
@@ -33,7 +33,7 @@ class Test( unittest.TestCase ):
         self.assertRaises( LineWrongAttributeType, lambda: CorrectLineClass( ) )
 
     def test_create_line_with_kwargs( self ):
-        class CorrectLineClass( BasicLine ):
+        class CorrectLineClass( BasicMessage ):
             column_1 = BasicColumn( )
             column_2 = BasicColumn( )
 
@@ -43,7 +43,7 @@ class Test( unittest.TestCase ):
         self.assertEqual( instance.column_2, TEST_COLUMN_2_VALUE )
 
     def test_create_line_with_sorted_kwargs( self ):
-        class CorrectLineClass( BasicLine ):
+        class CorrectLineClass( BasicMessage ):
             column_1 = BasicColumn( )
             column_2 = BasicColumn( )
 
@@ -56,7 +56,7 @@ class Test( unittest.TestCase ):
         self.assertListEqual( instance.render( ), TEST_SORTED_ITER )
         
     def test_create_simple_instance( self ):
-        class CorrectLineClass( BasicLine ):
+        class CorrectLineClass( BasicMessage ):
             column_1 = BasicColumn( default=TEST_COLUMN_1_DEFAULT )
             column_2 = BasicColumn( default=TEST_COLUMN_2_DEFAULT )
 

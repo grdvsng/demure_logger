@@ -1,7 +1,7 @@
 import unittest
 
-from src.demure_logger.writers.basic.line.column     import BasicColumn
-from src.demure_logger.writers.basic.line.exceptions import CantGetColumnNameFromScope
+from src.demure_logger.log.message.column     import BasicColumn
+from src.demure_logger.log.message.exceptions import CantGetColumnNameFromScope
 
 
 TEST_COLUMN_NAME        = 'column_1'
@@ -11,7 +11,7 @@ TEST_DEFAULT_FUNC_VALUE = 10 * 10
 TEST_DEFAULT_FORMATER   = lambda x: str( x )
 
 
-class Test( unittest.TestCase ):
+class TestMessageColumn( unittest.TestCase ):
     def test_column_with_name( self ):
         class TEST:
             cls_column = BasicColumn( )

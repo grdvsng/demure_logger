@@ -16,7 +16,7 @@ loop = asyncio.new_event_loop( )
 asyncio.set_event_loop( loop )    
 
 
-class Test( unittest.TestCase ):
+class TestConsoleColor( unittest.TestCase ):
     def test_get_code( self ):
         self.assertEqual( controller.get_style( TEST_STYLE ), '\x1b[1m'  )
 

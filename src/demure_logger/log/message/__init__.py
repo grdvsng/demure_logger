@@ -1,23 +1,23 @@
 import inspect
 
 from .column     import BasicColumn
-from typing      import TypeVar, Callable, List, Generic, Optional, Iterable, Dict, Any, overload
+from typing      import TypeVar, Callable, List, Generic, Optional, Iterable, overload
 from .exceptions import LineWrongAttributeType, ColumnDoesntExists
 
 
-LineColumn = TypeVar( 'LineColumn', bound=BasicColumn )
-T          = TypeVar( 'T' )
+MessageColumn = TypeVar( 'MessageColumn', bound=BasicColumn )
+T             = TypeVar( 'T' )
 
 
-class BasicLine( Generic[T] ):
+class BasicMessage( Generic[T] ):
     __formater__: Callable[ ..., T ]
-    __ordered__ : Iterable[LineColumn]
+    __ordered__ : Iterable[MessageColumn]
 
-    __columns__ : List[ LineColumn ]
+    __columns__ : List[ MessageColumn ]
 
     def __init__( self, 
         formater: Callable[ ..., T ] = lambda columns: [ column.render( ) for column in columns ],
-        sort_by:  Optional[ Iterable[str] | Callable[ [ LineColumn ], int|str ] ] = None,
+        sort_by:  Optional[ Iterable[str] | Callable[ [ MessageColumn ], int|str ] ] = None,
         **columns_values ):
         self.__columns__ = [ ]
 
@@ -80,4 +80,4 @@ class BasicLine( Generic[T] ):
                 raise ColumnDoesntExists( f"'name' doesn't exists in line" )
 
 
-Line = TypeVar( 'Line', bound=BasicLine )
+Message = TypeVar( 'Message', bound=BasicMessage )

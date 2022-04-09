@@ -4,7 +4,7 @@ from src.demure_logger.log            import Levels
 from src.demure_logger.log.exceptions import LogLevelsDigestReadOnlyExists, LevelDoesntExists
 
 
-class Test( unittest.TestCase ):
+class TestLogLevels( unittest.TestCase ):
     def test_get( self ):
         self.assertEqual( Levels.ignore, 0 ) 
         self.assertEqual( Levels.fatal , 1 )  

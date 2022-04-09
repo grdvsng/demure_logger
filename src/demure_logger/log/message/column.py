@@ -1,9 +1,9 @@
 import re
 import inspect
 
-from typing           import Callable, Optional, Generic, Any, TypeVar
-from ....types.simple import T
-from .exceptions      import CantGetColumnNameFromScope
+from typing          import Callable, Optional, Generic, Any, TypeVar
+from ...types.simple import T
+from .exceptions     import CantGetColumnNameFromScope
 
 
 FormatedColumn = TypeVar( 'FormatedColumn' )
