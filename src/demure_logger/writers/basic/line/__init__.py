@@ -78,3 +78,6 @@ class BasicLine( Generic[T] ):
                 getattr( self, name ).value = value
             else:
                 raise ColumnDoesntExists( f"'name' doesn't exists in line" )
+
+
+Line = TypeVar( 'Line', bound=BasicLine )
