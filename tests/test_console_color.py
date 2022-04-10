@@ -1,9 +1,9 @@
 import asyncio 
 import unittest
 
-from src.demure_logger.writers.console.colors import controller
-from src.demure_logger.writers.console.colors import exceptions
-from src.demure_logger.writers.console.colors import decorators
+from demure_logger.format.text.colors import controller
+from demure_logger.format.text.colors import exceptions
+from demure_logger.format.text.colors import decorators
 
 
 TEST_BACKGROUND = 'yellow' 

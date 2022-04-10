@@ -3,7 +3,7 @@ from colorama       import Fore, Back, Style
 from .exceptions    import ColorDoesntExists, StyleDoesntExists
 
 
-def get_code( code: str, bg: bool = False ) -> int:
+def get_code( code: str, bg: bool = False ) -> str:
     cls   = Back if bg else Fore
     color = getattr( cls, code.upper( ), None )
         
@@ -12,7 +12,7 @@ def get_code( code: str, bg: bool = False ) -> int:
     else:
         return color 
 
-def get_style( code: str ) -> int:
+def get_style( code: str ) -> str:
     style = getattr( Style, code.upper( ), None )
         
     if style is None:
@@ -34,7 +34,7 @@ def text( content: str, color: str, style: Optional[str]=None ) -> str:
 def background( content: str, color: str, style: Optional[str]=None ) -> str:
     return set( content, color, style, True )
 
-def paint( content: str, text_color: str, background_color: str='RESET', style: Optional[str]=None ) -> str:
+def paint( content: str, text_color: str='RESET', background_color: str='RESET', style: Optional[str]=None ) -> str:
     color   = get_code ( text_color )
     bg      = get_code ( background_color, True )
     style   = "" if style is None else get_style( style )

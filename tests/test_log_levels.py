@@ -1,7 +1,7 @@
 import unittest
 
-from src.demure_logger.log            import Levels
-from src.demure_logger.log.exceptions import LogLevelsDigestReadOnlyExists, LevelDoesntExists
+from demure_logger.log            import Levels
+from demure_logger.log.exceptions import LogLevelsDigestReadOnlyExists, LevelDoesntExists
 
 
 class TestLogLevels( unittest.TestCase ):
