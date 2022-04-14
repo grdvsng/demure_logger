@@ -1,7 +1,7 @@
 from .exceptions import LevelDoesntExists, LogLevelsDigestReadOnlyExists
 from typing      import Any
 from functools   import total_ordering
-
+from pydantic    import BaseModel
 
 class LevelConstant:
     IGNORE = 0
@@ -17,10 +17,21 @@ class Level:
     __name: str
     __value: int
 
+    @classmethod
+    def get_schema( cls ) -> BaseModel:
+        class PDLevel( BaseModel ):
+            name: str
+            value: int
+
+        return PDLevel
+    
     def __init__( self, name: str, value: int ) :
         self.__name  = name
         self.__value = value
 
+    def to_schema( self ) -> BaseModel:
+        return self.__class__.get_schema( value=self.value, name=self.name )
+    
     @property
     def name( self ) -> str: return self.__name
 

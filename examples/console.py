@@ -175,11 +175,3 @@ except Exception as _:
 
 
 # >> FATAL   19168   2022-04-10 23:28:34.154133+04:00        test
-
-#? Use ase service
-app = logger.as_service( )
- 
-uvicorn.run( app )
-
-# > INFO    3828    2022-04-11 00:17:23.846489+04:00        mtnynytrnrrnty
-# > INFO:     127.0.0.1:58197 - "POST /Logger HTTP/1.1" 200 OK

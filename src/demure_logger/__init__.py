@@ -1,20 +1,22 @@
 import inspect
 
-from fastapi     import FastAPI, Form
-from .writer     import BasicWriter
-from .format     import BasicFormat
-from typing      import TypeVar, Type, Dict, Any, Callable, ParamSpec, List, Tuple, Optional
-from .log        import BasicMessage
-from .log.levels import Levels, Level
-from functools   import wraps
+from .writer        import BasicWriter
+from .format        import BasicFormat
+from typing         import TypeVar, Type, Dict, Any, Callable, ParamSpec, List, Tuple, Optional
+from .log           import BasicMessage
+from .log.levels    import Levels, Level
+from functools      import wraps
+from .configuration import Basic as Config
 
 
-Writer  = TypeVar  ( 'Writer' , bound=BasicWriter  )
-Format  = TypeVar  ( 'Format' , bound=BasicFormat  ) 
-Message = TypeVar  ( 'Message', bound=BasicMessage )
-T       = TypeVar  ( 'T' )
-P       = ParamSpec( 'P' )
-R       = TypeVar  ( 'R' )
+Level    = TypeVar  ( 'Level'  , bound=Level         )
+Writer   = TypeVar  ( 'Writer' , bound=BasicWriter   )
+Format   = TypeVar  ( 'Format' , bound=BasicFormat   ) 
+Message  = TypeVar  ( 'Message', bound=BasicMessage  )
+Logger   = TypeVar  ( 'Logger' , bound='BasicLogger' )
+T        = TypeVar  ( 'T' )
+P        = ParamSpec( 'P' )
+R        = TypeVar  ( 'R' )
 
 
 def call_if_callable( instance: Callable[ ..., T ] | T, *args, **kwargs ) -> T:
@@ -27,6 +29,8 @@ MessageDataType = Dict[ str, Any ] | str
 
 
 class BasicLogger:
+    count: int = 0
+
     _writer        : Writer        | Callable[ ..., Writer        ]
     _format        : Format        | Callable[ ..., Format        ]
     _message_class : Type[Message] | Callable[ ..., Type[Message] ]
@@ -38,7 +42,7 @@ class BasicLogger:
         message_class : Type[Message] | Callable[ ..., Type[Message] ],
         level         : Level                               =Levels.debug,
         name          : Optional[str] = None,
-        event_Hanler  : Callable[ [ Level, Message ], None ]=lambda level, message: ...
+        event_hanler  : Callable[ [ Level, Message ], None ]=lambda level, message: ...
     ):
         self.name           = self.__class__.__name__ if name is None else name
         self._writer        =  writer                
@@ -46,7 +50,9 @@ class BasicLogger:
         self._message_class =  message_class 
 
         self.level        = level
-        self.event_Hanler = event_Hanler
+        self.event_hanler = event_hanler
+
+        self.__class__.count += 1
     
     @property
     def writer( self ) -> Writer: return call_if_callable( self._writer )
@@ -66,7 +72,7 @@ class BasicLogger:
             if event <= self.level:
                 formated = self.format.prepare( message )
 
-                self.event_Hanler( event, message )
+                self.event_hanler( event, message )
                 
                 self.writer.write( formated )
             
@@ -166,16 +172,44 @@ class BasicLogger:
         
         return wrap( args[0] ) if len( args ) == 1 and callable( args[0] ) else wrap
 
-    def as_service( self, prefix: Optional[str]=None ) -> FastAPI:
-        MessageType = self.message_class.pydantic_type( )
-        app         = FastAPI( )
-        
-        if prefix is None:
-            prefix = '/' + self.name
+    @classmethod
+    def from_config( cls, config: Config ):
+        return cls.__init__( **config.__dict__ )
 
-        async def create( level: str = Form( Levels.info.name ), message: str = Form( ... ) ):
-            return MessageType( **self._write( getattr( Levels, level ), message )[0].__dict__ )
-        
-        app.post( prefix, response_model=MessageType )( create )
+    @classmethod 
+    def convert_config( cls, config: Dict[ str, Any ] ) -> Dict[ str, Any ]:
+        return config
 
-        return app
+    @classmethod
+    def from_config( cls, *config: List[Config] ):
+        if len( config ) == 1:
+            config  = cls.convert_config( config[0] )
+
+            return cls( **config )
+        else:
+            return cls.multy( *[ cls.convert_config( _ ) for _ in config ] )
+    
+    @classmethod
+    def multy( cls: Type[T], *config: List[Config|T] ):
+        class MultyLogger( cls ):
+            loggers: List[T]
+
+            def __init__( self ):
+                self.loggers = [ 
+                    cls( **_ ) if isinstance( _, dict ) else _ 
+                    for _ in config 
+                ]
+            
+            def _write( self, event: Level, *messages: List[MessageDataType] ) -> List[Message]:
+                result = [ ]
+
+                for logger in self.loggers:
+                    for message in logger._write( event, *messages ):
+                        result.append( message )
+
+                return result
+            
+        return MultyLogger( )
+
+    def __repr__( self ) -> str:
+        return f"{self.name}({self.level})"

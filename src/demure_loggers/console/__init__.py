@@ -1,9 +1,8 @@
-from typing                    import TypeVar, Callable, List, Dict, Any
+from typing                    import TypeVar, Callable
 from demure_logger             import BasicLogger
 from .message                  import Message
 from demure_logger.format.text import Format
 from .writer                   import Writer
-from demure_logger.log         import Levels, Level
 
 
 MessageType = TypeVar( 'MessageType', bound=Message )
