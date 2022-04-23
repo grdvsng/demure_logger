@@ -11,7 +11,7 @@ packages = setuptools.find_packages(where='./src')
 
 setuptools.setup(
     name                         = "demure_logger",
-    version                      = "0.9.0",
+    version                      = "0.9.1",
     author                       = "Trishkin Sergey",
     author_email                 = "grdvsng@gmail.com",
     description                  = "Simple but customize captcha generator( image + voice )",
