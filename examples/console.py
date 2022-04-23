@@ -7,7 +7,6 @@ import asyncio
 
 sys.path.append( os.path.join( str( pathlib.Path( __file__ ).parent.parent ), 'src' ) ) 
 
-
 import random
 
 from demure_logger.log              import Levels

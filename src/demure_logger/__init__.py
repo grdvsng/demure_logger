@@ -71,7 +71,7 @@ class BasicLogger:
           
             if event <= self.level:
                 formated = self.format.prepare( message )
-
+                
                 self.event_hanler( event, message )
                 
                 self.writer.write( formated )
