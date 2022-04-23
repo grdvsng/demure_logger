@@ -1,14 +1,11 @@
 import os
-import sys
 import json
-import pathlib
-
-sys.path.append( os.path.join( str( pathlib.Path( __file__ ).parent.parent ), 'src' ) ) 
 
 from datetime                    import datetime
 from demure_logger.log           import Levels
 from demure_loggers.file         import Logger, Format, Writer
-from demure_loggers.file.message import Message, TextField
+from demure_loggers.file.message import Message
+
 
 #? Exmaple basic file logger
 logger = Logger( path="./.temp/test.log", level=Levels.DEBUG )

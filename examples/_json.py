@@ -1,15 +1,10 @@
 import os
 import sys
 import socket
-import uuid
 import pathlib
 import threading
-
-sys.path.append( os.path.join( str( pathlib.Path( __file__ ).parent.parent ), 'src' ) ) 
-
-from datetime                    import datetime
 from demure_logger.log           import Levels
-from demure_loggers.json         import Logger, Format, Writer, Message
+from demure_loggers.json         import Logger, Format, Message
 from demure_loggers.file.message import TextField
 
 #? Exmaple basic json logger

@@ -28,15 +28,9 @@ Debug and monitoring you applications via pretty console logging.
 __Examples__
 ```python
 import os
-import sys
 import uuid
-import uvicorn
-import pathlib
-import asyncio
-
-sys.path.append( os.path.join( str( pathlib.Path( __file__ ).parent.parent ), 'src' ) ) 
-
 import random
+import asyncio
 
 from demure_logger.log              import Levels
 from demure_loggers.console         import Logger, Format, Writer
@@ -211,16 +205,13 @@ Generic file names, formaters, writers, good solution for serveci logging and de
 __Example__
 ```python
 import os
-import sys
 import json
-import pathlib
-
-sys.path.append( os.path.join( str( pathlib.Path( __file__ ).parent.parent ), 'src' ) ) 
 
 from datetime                    import datetime
 from demure_logger.log           import Levels
 from demure_loggers.file         import Logger, Format, Writer
-from demure_loggers.file.message import Message, TextField
+from demure_loggers.file.message import Message
+
 
 #? Exmaple basic file logger
 logger = Logger( path="./.temp/test.log", level=Levels.DEBUG )
@@ -451,15 +442,10 @@ __Examples__
 import os
 import sys
 import socket
-import uuid
 import pathlib
 import threading
-
-sys.path.append( os.path.join( str( pathlib.Path( __file__ ).parent.parent ), 'src' ) ) 
-
-from datetime                    import datetime
 from demure_logger.log           import Levels
-from demure_loggers.json         import Logger, Format, Writer, Message
+from demure_loggers.json         import Logger, Format, Message
 from demure_loggers.file.message import TextField
 
 #? Exmaple basic json logger
@@ -892,22 +878,17 @@ for task in tasks: task.join( )
 # >>     ]
 # >> }
 ```
-
 __PIPE Logger__
 It can help you when you debuging your application, need console output and write in some file.
 
 __Examples__
 ```python
 import pathlib
-import os.path as os_path
 import os
-import sys
 import pathlib
 
 
 ROOT = str( pathlib.Path( __file__ ).parent.parent )
-
-sys.path.append( os.path.join( ROOT, 'src' ) ) 
 
 HANDLER_PATH = os.path.join( ROOT, 'scripts', 'demure-logger-pipe.py' )
 TEMP_SCRIPT  = os.path.join( ROOT, '.temp', 'test-program.py' )

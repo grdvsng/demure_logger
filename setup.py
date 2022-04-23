@@ -9,7 +9,6 @@ with open( "requirements.txt", "r", encoding="utf-8" ) as fh:
 
 packages = setuptools.find_packages(where='./src')
 
-print( 'fonts', glob.glob( './src/*/fonts/files/*.otf' ) )
 setuptools.setup(
     name                         = "demure_logger",
     version                      = "0.9.0",
@@ -23,7 +22,7 @@ setuptools.setup(
     classifiers                  = [
         'Programming Language :: Python :: 3.8',
         "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
-    ],,
+    ],
     include_package_data         = True,
     install_requires             = install_requires,
     package_dir                  = { "": "src" },

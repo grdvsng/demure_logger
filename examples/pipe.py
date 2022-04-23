@@ -1,13 +1,9 @@
 import pathlib
-import os.path as os_path
 import os
-import sys
 import pathlib
 
 
 ROOT = str( pathlib.Path( __file__ ).parent.parent )
-
-sys.path.append( os.path.join( ROOT, 'src' ) ) 
 
 HANDLER_PATH = os.path.join( ROOT, 'scripts', 'demure-logger-pipe.py' )
 TEMP_SCRIPT  = os.path.join( ROOT, '.temp', 'test-program.py' )
