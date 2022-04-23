@@ -6,8 +6,6 @@ import asyncio
 import pathlib
 import importlib.util
 
-sys.path.append( os.path.join( str( pathlib.Path( __file__ ).parent.parent ), 'src' ) ) 
-
 from demure_logger.handlers.pipe import Handler, Config
 
 
